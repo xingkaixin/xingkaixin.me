@@ -28,7 +28,7 @@ const Scripts = () => {
           </Script>
         </>
       )}
-      {BLOG.analytics && BLOG.analytics.provider === "umami" && (
+      {BLOG.analytics && BLOG.analytics.provider === "umaimi" && (
         <>
           <Script
             async
