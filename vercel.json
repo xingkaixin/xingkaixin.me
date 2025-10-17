@@ -1,11 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "installCommand": "bun install",
-  "buildCommand": "bun run build",
-  "functions": {
-    "runtime": "bun@1.0"
-  },
   "headers": [
     {
       "source": "/fonts/IBMPlexSansVar-Roman.woff2",
