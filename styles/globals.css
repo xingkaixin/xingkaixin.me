@@ -163,3 +163,33 @@ nav {
 .capture-pointer-events * {
   @apply pointer-events-none;
 }
+
+@keyframes floaty {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.floaty {
+  animation: floaty 18s ease-in-out infinite;
+}
+
+.floaty-delay {
+  animation: floaty 22s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
