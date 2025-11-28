@@ -12,8 +12,8 @@ const Footer = ({ fullWidth }) => {
         !fullWidth ? 'max-w-2xl px-4' : 'px-4 md:px-24'
       }`}
     >
-      <hr className="border-gray-200 dark:border-gray-600" />
-      <div className="my-4 text-sm leading-6">
+      <hr className="border-gray-200 dark:border-gray-800" />
+      <div className="my-4 text-sm leading-6 font-mono">
         <div className="flex align-baseline justify-between flex-wrap">
           <p>
             © {BLOG.author} {from === y || !from ? y : `${from} - ${y}`}

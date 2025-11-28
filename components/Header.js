@@ -22,9 +22,9 @@ const NavBar = () => {
             link.show && (
               <li
                 key={link.id}
-                className="block ml-4 text-black dark:text-gray-50 nav"
+                className="block ml-4 text-black dark:text-gray-50 nav font-mono uppercase tracking-wider text-sm"
               >
-                <Link href={link.to} target={link.external ? '_blank' : null}>{link.name}</Link>
+                <Link href={link.to} target={link.external ? '_blank' : null} className="hover:text-[#FF4F00] dark:hover:text-[#FF4F00] transition-colors duration-200">{link.name}</Link>
               </li>
             )
         )}
@@ -85,7 +85,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
     <>
       <div className="observer-element h-4 md:h-12" ref={sentinelRef}></div>
       <div
-        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-60 ${
+        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-90 border-b border-gray-200 dark:border-gray-800 ${
           !fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
         }`}
         id="sticky-nav"
