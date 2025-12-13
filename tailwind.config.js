@@ -1,5 +1,4 @@
 import { config } from './lib/server/config'
-import { FONTS_SANS, FONTS_SERIF } from './consts'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -9,37 +8,58 @@ export default {
     extend: {
       colors: {
         day: {
-          DEFAULT: config.lightBackground || '#ffffff'
+          DEFAULT: config.lightBackground || '#faf7f2'
         },
         night: {
-          DEFAULT: config.darkBackground || '#111827'
+          DEFAULT: config.darkBackground || '#0a0a0b'
         },
-        primary: {
-          DEFAULT: '#FF4F00',
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+        // 东方墨韵色板
+        paper: {
+          white: '#faf7f2',
+          cream: '#f0ebe0',
+          warm: '#e8e0d0',
+        },
+        ink: {
+          black: '#1a1a1c',
+          dark: '#2d2d2f',
+          medium: '#4a4a4c',
+          light: '#6b6b6d',
+          faint: '#9a9a9c',
+        },
+        vermillion: {
+          DEFAULT: '#c41e3a',
+          light: '#d64a5e',
+          dark: '#9a1830',
+        },
+        gold: {
+          accent: '#b8860b',
         }
       },
       fontFamily: {
-        sans: FONTS_SANS,
-        serif: FONTS_SERIF,
-        noEmoji: [
-          '"IBM Plex Sans"',
-          'ui-sans-serif',
-          'system-ui',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'sans-serif'
-        ]
-      }
+        sans: ['"LXGW WenKai"', 'MiSans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'ui-serif', 'serif'],
+        calligraphy: ['"LXGW WenKai"', 'serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      animation: {
+        'ink-spread': 'ink-spread 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'fade-up': 'fade-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'brush-stroke': 'brush-stroke 2s ease-out forwards',
+      },
+      keyframes: {
+        'ink-spread': {
+          '0%': { transform: 'scale(0)', opacity: '0.8' },
+          '100%': { transform: 'scale(2)', opacity: '0' },
+        },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'brush-stroke': {
+          '0%': { strokeDashoffset: '1000' },
+          '100%': { strokeDashoffset: '0' },
+        },
+      },
     }
   },
   variants: {

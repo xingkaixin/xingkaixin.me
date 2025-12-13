@@ -1,5 +1,4 @@
 import { clientConfig } from "@/lib/server/config";
-
 import Container from "@/components/Container";
 import BlogPost from "@/components/BlogPost";
 import Pagination from "@/components/Pagination";
@@ -13,7 +12,7 @@ export async function getStaticProps() {
   const showNext = totalPosts > clientConfig.postsPerPage;
   return {
     props: {
-      page: 1, // current page is 1
+      page: 1,
       postsToShow,
       showNext,
       totalPosts,
@@ -28,30 +27,65 @@ export default function Blog({ postsToShow, page, showNext, totalPosts }) {
 
   return (
     <Container title={title} description={description} fullWidth>
-      <div className="mx-auto w-full max-w-5xl space-y-8">
-        <div className="flex flex-col gap-2 rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 md:text-3xl">
-              {title}
-            </h1>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {description}
-            </p>
-          </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400">
-            共 {totalPosts} 篇文章
-          </div>
+      <div className="relative mx-auto w-full max-w-5xl">
+        {/* 侧边竖排装饰文字 - 仅桌面端显示 */}
+        <div className="vertical-text fixed left-8 top-1/2 hidden -translate-y-1/2 xl:block">
+          人生不该只有一种体验
         </div>
-        <section className="grid gap-6 md:grid-cols-2">
-          {postsToShow.map((post) => (
-            <BlogPost key={post.id} post={post} />
-          ))}
-        </section>
-        {showNext && (
-          <div className="flex justify-center">
-            <Pagination page={page} showNext={showNext} />
-          </div>
-        )}
+        <div className="vertical-text fixed right-8 top-1/2 hidden -translate-y-1/2 xl:block">
+          做个兴趣广泛的人
+        </div>
+
+        {/* 墨滴装饰 */}
+        <div className="ink-drop -left-20 -top-10 hidden opacity-60 lg:block"
+             style={{ width: '150px', height: '150px' }} />
+        <div className="ink-drop -right-16 top-40 hidden opacity-40 lg:block"
+             style={{ width: '100px', height: '100px' }} />
+
+        <div className="space-y-10">
+          {/* 头部区域 */}
+          <header className="relative overflow-hidden border-b border-paper-warm pb-8">
+            {/* 标题 */}
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="space-y-2">
+                <h1 className="font-calligraphy text-3xl text-ink-black md:text-4xl">
+                  {title}
+                </h1>
+                <p className="font-serif text-lg italic text-ink-light">
+                  {description}
+                </p>
+              </div>
+
+              {/* 印章 + 文章数 */}
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-ink-light">
+                  共 {totalPosts} 篇
+                </span>
+                <span className="seal-stamp">行</span>
+              </div>
+            </div>
+          </header>
+
+          {/* 博客列表 */}
+          <section className="grid gap-6 md:grid-cols-2">
+            {postsToShow.map((post, index) => (
+              <div
+                key={post.id}
+                className="fade-up opacity-0"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <BlogPost post={post} />
+              </div>
+            ))}
+          </section>
+
+          {/* 分页 */}
+          {showNext && (
+            <div className="flex justify-center pt-4">
+              <Pagination page={page} showNext={showNext} />
+            </div>
+          )}
+        </div>
       </div>
     </Container>
   );

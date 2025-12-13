@@ -1,84 +1,141 @@
+/* ========================================
+   东方墨韵 Design System
+   Eastern Ink Aesthetic - Light Mode Primary
+   ======================================== */
+
+/* 字体引入 */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   CSS Variables - 墨韵色板
+   ======================================== */
+:root {
+  /* 宣纸色系 (浅色主题) */
+  --paper-white: #faf7f2;
+  --paper-cream: #f0ebe0;
+  --paper-warm: #e8e0d0;
+
+  /* 墨色系 */
+  --ink-black: #1a1a1c;
+  --ink-dark: #2d2d2f;
+  --ink-medium: #4a4a4c;
+  --ink-light: #6b6b6d;
+  --ink-faint: #9a9a9c;
+
+  /* 点缀色 */
+  --vermillion: #c41e3a;        /* 朱砂红 - 印章/强调 */
+  --vermillion-light: #d64a5e;
+  --vermillion-dark: #9a1830;
+  --gold-accent: #b8860b;       /* 古金 - 极少量点缀 */
+
+  /* 功能色 */
+  --link-color: var(--vermillion);
+  --link-hover: var(--vermillion-dark);
+
+  /* 滚动条 */
+  --scrollbar-bg: var(--paper-cream);
+  --scrollbar-thumb: var(--ink-faint);
+}
+
+/* 深色模式变量 (作为次要选项保留) */
+.dark {
+  --paper-white: #0a0a0b;
+  --paper-cream: #141416;
+  --paper-warm: #1e1e20;
+
+  --ink-black: #f5f1eb;
+  --ink-dark: #e8e0d0;
+  --ink-medium: #c0b8a8;
+  --ink-light: #9a9490;
+  --ink-faint: #6a6460;
+
+  --scrollbar-bg: #0a0a0b;
+  --scrollbar-thumb: #333333;
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
 @layer base {
   * {
     border-radius: 0 !important;
   }
 
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--paper-white);
+  }
+
   body {
-    @apply font-mono;
+    font-family: 'LXGW WenKai', 'MiSans', ui-sans-serif, system-ui, sans-serif;
+    background-color: var(--paper-white);
+    color: var(--ink-dark);
+    line-height: 1.8;
+
+    /* 宣纸纹理背景 */
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-blend-mode: soft-light;
+    background-size: 200px 200px;
+  }
+
+  /* 选中文本 - 朱砂红 */
+  ::selection {
+    background: rgba(196, 30, 58, 0.2);
+    color: var(--vermillion);
   }
 }
 
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-  font-named-instance: 'Regular';
-  src: url('/fonts/IBMPlexSansVar-Roman.woff2') format('woff2');
+/* ========================================
+   Typography - 字体样式
+   ======================================== */
+
+/* 书法标题字体 */
+.font-calligraphy {
+  font-family: 'LXGW WenKai', serif;
+  font-weight: 400;
 }
 
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: italic;
-  font-named-instance: 'Italic';
-  src: url('/fonts/IBMPlexSansVar-Italic.woff2') format('woff2');
+/* 英文优雅衬线 */
+.font-elegant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
-@font-face {
-  font-family: 'Source Serif';
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-  font-named-instance: 'Regular';
-  src: url('/fonts/SourceSerif.var.woff2') format('woff2');
+/* 等宽代码字体 */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
-@font-face {
-  font-family: 'Source Serif';
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: italic;
-  font-named-instance: 'Italic';
-  src: url('/fonts/SourceSerif-Italic.var.woff2') format('woff2');
-}
-
-html {
-  --scrollbarBG: #000000;
-  --thumbBG: #333333;
-  scroll-behavior: smooth;
-}
-
+/* ========================================
+   Scrollbar - 滚动条
+   ======================================== */
 body::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 body {
   scrollbar-width: thin;
-  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-  font-family: 'JetBrains Mono', monospace;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 body::-webkit-scrollbar-track {
-  background: var(--scrollbarBG);
+  background: var(--scrollbar-bg);
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG);
-  border: 1px solid var(--scrollbarBG);
+  background-color: var(--scrollbar-thumb);
+  border: 1px solid var(--scrollbar-bg);
 }
 
-::selection {
-  background: rgba(255, 79, 0, 0.3);
-  color: #FF4F00;
-}
-
+/* ========================================
+   Layout - 布局
+   ======================================== */
 .wrapper {
   min-height: 100vh;
   display: flex;
@@ -88,13 +145,21 @@ body::-webkit-scrollbar-thumb {
   flex-direction: column;
 }
 
+/* ========================================
+   Navigation - 导航
+   ======================================== */
 .sticky-nav {
   position: sticky;
   z-index: 10;
   top: -1px;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(12px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0, 1);
   border-bottom-color: transparent;
+  background-color: rgba(250, 247, 242, 0.85);
+}
+
+.dark .sticky-nav {
+  background-color: rgba(10, 10, 11, 0.85);
 }
 
 .remove-sticky {
@@ -102,7 +167,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sticky-nav-full {
-  @apply border-b border-opacity-50 border-gray-200 dark:border-gray-600 dark:border-opacity-50 cursor-pointer;
+  @apply border-b;
+  border-color: var(--ink-faint);
+  border-opacity: 0.3;
 }
 
 .sticky-nav:not(.sticky-nav-full) .caret {
@@ -115,7 +182,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sticky-nav-full .nav {
-  @apply text-gray-600 dark:text-gray-300;
+  color: var(--ink-medium);
 }
 
 nav {
@@ -123,27 +190,315 @@ nav {
   line-height: 1.5em;
 }
 
-.article-tags::-webkit-scrollbar {
-  width: 0 !important;
+/* ========================================
+   Navigation Link Effects - 墨迹下划线
+   ======================================== */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
 }
 
-.tag-container ul::-webkit-scrollbar {
-  width: 0 !important;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--vermillion) 0%, var(--vermillion-light) 100%);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tag-container ul {
-  -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -khtml-user-select: none;
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--vermillion) !important;
+}
+
+/* ========================================
+   印章效果 - Seal Stamp
+   ======================================== */
+.seal-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  border: 2px solid var(--vermillion);
+  color: var(--vermillion);
+  font-family: 'LXGW WenKai', serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.seal-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--vermillion);
+  opacity: 0.5;
+}
+
+.seal-stamp:hover {
+  background-color: var(--vermillion);
+  color: var(--paper-white);
+}
+
+/* ========================================
+   Blog Card - 博客卡片
+   ======================================== */
+.blog-card {
+  position: relative;
+  background: var(--paper-cream);
+  border: 1px solid var(--paper-warm);
+  padding: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* 左侧朱砂竖线 */
+.blog-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--vermillion) 20%,
+    var(--vermillion) 80%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+/* 墨晕扩散效果 */
+.blog-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(
+    circle,
+    rgba(26, 26, 28, 0.03) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 8px 30px rgba(26, 26, 28, 0.08),
+    0 4px 10px rgba(26, 26, 28, 0.04);
+  border-color: var(--ink-faint);
+}
+
+.blog-card:hover::before {
+  opacity: 1;
+}
+
+.blog-card:hover::after {
+  width: 300%;
+  height: 300%;
+}
+
+.dark .blog-card {
+  background: var(--paper-cream);
+  border-color: var(--paper-warm);
+}
+
+.dark .blog-card::after {
+  background: radial-gradient(
+    circle,
+    rgba(245, 241, 235, 0.03) 0%,
+    transparent 70%
+  );
+}
+
+/* ========================================
+   Article Styles - 文章样式
+   ======================================== */
+
+/* 文章标题 */
+.article-title {
+  font-family: 'LXGW WenKai', serif;
+  font-weight: 400;
+  color: var(--ink-black);
+  letter-spacing: 0.02em;
+}
+
+/* 日期标签 - 竖排小印章风格 */
+.date-stamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* 引用块 - 宣纸质感 */
+blockquote {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: var(--paper-cream);
+  border-left: 3px solid var(--vermillion);
+  font-style: italic;
+  color: var(--ink-medium);
+}
+
+blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -0.5rem;
+  left: 0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: var(--vermillion);
+  opacity: 0.3;
+  line-height: 1;
+}
+
+/* ========================================
+   Animations - 动画
+   ======================================== */
+
+/* 墨晕扩散动画 */
+@keyframes ink-spread {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ink-spread {
+  animation: ink-spread 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 笔画绘制动画 */
+@keyframes brush-stroke {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.brush-stroke {
+  stroke-dasharray: 1000;
+  animation: brush-stroke 2s ease-out forwards;
+}
+
+/* 淡入上浮动画 */
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 延迟动画类 */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* 浮动动画 */
+@keyframes floaty {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.floaty {
+  animation: floaty 18s ease-in-out infinite;
+}
+
+.floaty-delay {
+  animation: floaty 22s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+/* ========================================
+   Decorative Elements - 装饰元素
+   ======================================== */
+
+/* 竖排装饰文字 */
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: 'LXGW WenKai', serif;
+  color: var(--ink-faint);
+  font-size: 0.875rem;
+  letter-spacing: 0.3em;
+  opacity: 0.4;
   user-select: none;
 }
 
+/* 墨滴装饰 */
+.ink-drop {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(26, 26, 28, 0.08) 0%,
+    rgba(26, 26, 28, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.dark .ink-drop {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(245, 241, 235, 0.05) 0%,
+    rgba(245, 241, 235, 0.01) 40%,
+    transparent 70%
+  );
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
 @media (min-width: 768px) {
   .sticky-nav-full {
-    @apply max-w-full border-b border-opacity-50 border-gray-200 dark:border-gray-600 dark:border-opacity-50;
+    @apply max-w-full;
+    border-color: var(--ink-faint);
+    border-opacity: 0.3;
   }
 
   .header-name {
@@ -184,35 +539,20 @@ nav {
 @supports not (backdrop-filter: none) {
   .sticky-nav {
     backdrop-filter: none;
-    @apply bg-day bg-opacity-90 dark:bg-night dark:bg-opacity-90;
+    background-color: var(--paper-white);
+    opacity: 0.95;
+  }
+
+  .dark .sticky-nav {
+    background-color: var(--paper-white);
   }
 }
 
+/* ========================================
+   Utility Classes - 工具类
+   ======================================== */
 .capture-pointer-events * {
   @apply pointer-events-none;
-}
-
-@keyframes floaty {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(0, -12px, 0) scale(1.04);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-.floaty {
-  animation: floaty 18s ease-in-out infinite;
-}
-
-.floaty-delay {
-  animation: floaty 22s ease-in-out infinite;
-  animation-delay: 3s;
 }
 
 @layer utilities {
@@ -222,4 +562,36 @@ nav {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .text-ink-black { color: var(--ink-black); }
+  .text-ink-dark { color: var(--ink-dark); }
+  .text-ink-medium { color: var(--ink-medium); }
+  .text-ink-light { color: var(--ink-light); }
+  .text-vermillion { color: var(--vermillion); }
+
+  .bg-paper-white { background-color: var(--paper-white); }
+  .bg-paper-cream { background-color: var(--paper-cream); }
+  .bg-paper-warm { background-color: var(--paper-warm); }
+
+  .border-paper-warm { border-color: var(--paper-warm); }
+  .border-ink-faint { border-color: var(--ink-faint); }
+}
+
+/* Article tags scrollbar hiding */
+.article-tags::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.tag-container ul::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.tag-container ul {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 }

@@ -16,15 +16,18 @@ const NavBar = () => {
   ]
   return (
     <div className="flex-shrink-0">
-      <ul className="flex flex-row">
+      <ul className="flex flex-row gap-6">
         {links.map(
           link =>
             link.show && (
-              <li
-                key={link.id}
-                className="block ml-4 text-black dark:text-gray-50 nav font-mono uppercase tracking-wider text-sm"
-              >
-                <Link href={link.to} target={link.external ? '_blank' : null} className="hover:text-[#FF4F00] dark:hover:text-[#FF4F00] transition-colors duration-200">{link.name}</Link>
+              <li key={link.id}>
+                <Link
+                  href={link.to}
+                  target={link.external ? '_blank' : null}
+                  className="nav-link text-sm font-medium uppercase tracking-widest text-ink-medium transition-colors hover:text-vermillion"
+                >
+                  {link.name}
+                </Link>
               </li>
             )
         )}
@@ -38,7 +41,6 @@ export default function Header ({ navBarTitle, fullWidth }) {
   const { dark } = useTheme()
 
   // Favicon
-
   const resolveFavicon = fallback => !fallback && dark ? '/favicon.dark.png' : '/favicon.png'
   const [favicon, _setFavicon] = useState(resolveFavicon())
   const setFavicon = fallback => _setFavicon(resolveFavicon(fallback))
@@ -85,31 +87,29 @@ export default function Header ({ navBarTitle, fullWidth }) {
     <>
       <div className="observer-element h-4 md:h-12" ref={sentinelRef}></div>
       <div
-        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-90 border-b border-gray-200 dark:border-gray-800 ${
+        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 ${
           !fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
         }`}
         id="sticky-nav"
         ref={navRef}
         onClick={handleClickHeader}
       >
+        {/* 向上滚动指示器 */}
         <svg
           viewBox="0 0 24 24"
           className="caret w-6 h-6 absolute inset-x-0 bottom-0 mx-auto pointer-events-none opacity-30 group-hover:opacity-100 transition duration-100"
         >
           <path
             d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z"
-            className="fill-black dark:fill-white"
+            className="fill-ink-dark"
           />
         </svg>
-        <div className="flex items-center">
-          <Link href="/" aria-label={BLOG.title}>
-            <Image
-              src={favicon}
-              width={24}
-              height={24}
-              alt={BLOG.title}
-              onError={() => setFavicon(true)}
-            />
+
+        {/* Logo + 标题 */}
+        <div className="flex items-center gap-3">
+          {/* 印章式 Logo */}
+          <Link href="/" aria-label={BLOG.title} className="group/logo">
+            <span className="seal-stamp text-xs">行</span>
           </Link>
           <HeaderName
             ref={titleRef}
@@ -119,6 +119,8 @@ export default function Header ({ navBarTitle, fullWidth }) {
             onClick={handleClickHeader}
           />
         </div>
+
+        {/* 导航 */}
         <NavBar />
       </div>
     </>
@@ -129,13 +131,13 @@ const HeaderName = forwardRef(function HeaderName ({ siteTitle, siteDescription,
   return (
     <p
       ref={ref}
-      className="header-name ml-2 font-medium text-gray-600 dark:text-gray-300 capture-pointer-events grid-rows-1 grid-cols-1 items-center"
+      className="header-name font-calligraphy text-ink-dark capture-pointer-events grid-rows-1 grid-cols-1 items-center"
       onClick={onClick}
     >
       {postTitle && <span className="post-title row-start-1 col-start-1">{postTitle}</span>}
       <span className="row-start-1 col-start-1">
         <span className="site-title">{siteTitle}</span>
-        <span className="site-description font-normal">, {siteDescription}</span>
+        <span className="site-description font-serif italic text-ink-light">, {siteDescription}</span>
       </span>
     </p>
   )
