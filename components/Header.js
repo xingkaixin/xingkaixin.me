@@ -47,7 +47,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
 
   useEffect(
     () => setFavicon(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
     [dark]
   )
 

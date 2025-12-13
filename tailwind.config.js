@@ -1,6 +1,6 @@
 import { config } from './lib/server/config'
 
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export default {
   content: ['./pages/**/*.js', './components/**/*.js', './layouts/**/*.js'],
   darkMode: 'class',
