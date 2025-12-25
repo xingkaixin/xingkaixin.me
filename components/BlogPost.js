@@ -5,6 +5,36 @@ import Link from "next/link";
 const BlogPost = ({ post }) => {
   const BLOG = useConfig();
 
+  // 有封面的布局
+  if (post.pageCover) {
+    return (
+      <Link href={`${BLOG.path}/${post.slug}`} className="group block h-full">
+        <article className="blog-card h-full overflow-hidden">
+          {/* 封面图 */}
+          <div className="relative aspect-[16/9] w-full overflow-hidden">
+            <img
+              src={post.pageCover}
+              alt={post.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+          {/* 标题和日期 */}
+          <div className="p-4">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="article-title text-lg leading-relaxed transition-colors group-hover:text-vermillion md:text-xl">
+                {post.title}
+              </h2>
+              <time className="date-stamp flex-shrink-0 pt-1">
+                <FormattedDate date={post.date} />
+              </time>
+            </div>
+          </div>
+        </article>
+      </Link>
+    );
+  }
+
+  // 无封面的原始布局
   return (
     <Link href={`${BLOG.path}/${post.slug}`} className="group block h-full">
       <article className="blog-card h-full">
@@ -44,3 +74,4 @@ const BlogPost = ({ post }) => {
 };
 
 export default BlogPost;
+
