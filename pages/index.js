@@ -1,29 +1,71 @@
 import { clientConfig } from "@/lib/server/config";
 import Container from "@/components/Container";
 import BlogPost from "@/components/BlogPost";
-import Pagination from "@/components/Pagination";
 import { getAllPosts } from "@/lib/notion";
 import { useConfig } from "@/lib/config";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export async function getStaticProps() {
   const posts = await getAllPosts({ includePages: false });
-  const postsToShow = posts.slice(0, clientConfig.postsPerPage);
   const totalPosts = posts.length;
-  const showNext = totalPosts > clientConfig.postsPerPage;
+  const postsPerPage = clientConfig.postsPerPage;
   return {
     props: {
-      page: 1,
-      postsToShow,
-      showNext,
+      allPosts: posts,
       totalPosts,
+      postsPerPage,
     },
     revalidate: 1,
   };
 }
 
-export default function Blog({ postsToShow, page, showNext, totalPosts }) {
+export default function Blog({ allPosts, totalPosts, postsPerPage }) {
   const BLOG = useConfig();
   const { title, description } = BLOG;
+
+  // 当前显示的文章数量
+  const [displayCount, setDisplayCount] = useState(postsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
+  const loaderRef = useRef(null);
+
+  // 当前显示的文章
+  const postsToShow = allPosts.slice(0, displayCount);
+  const hasMore = displayCount < totalPosts;
+
+  // 加载更多文章
+  const loadMore = useCallback(() => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+    // 模拟加载延迟，提供更好的用户体验
+    setTimeout(() => {
+      setDisplayCount(prev => Math.min(prev + postsPerPage, totalPosts));
+      setIsLoading(false);
+    }, 300);
+  }, [isLoading, hasMore, postsPerPage, totalPosts]);
+
+  // Intersection Observer 实现滚动加载
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    const currentLoader = loaderRef.current;
+    if (currentLoader) {
+      observer.observe(currentLoader);
+    }
+
+    return () => {
+      if (currentLoader) {
+        observer.unobserve(currentLoader);
+      }
+    };
+  }, [hasMore, isLoading, loadMore]);
 
   return (
     <Container title={title} description={description} fullWidth>
@@ -72,19 +114,27 @@ export default function Blog({ postsToShow, page, showNext, totalPosts }) {
               <div
                 key={post.id}
                 className="fade-up opacity-0"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ animationDelay: `${Math.min(index, postsPerPage - 1) * 0.1}s` }}
               >
                 <BlogPost post={post} />
               </div>
             ))}
           </section>
 
-          {/* 分页 */}
-          {showNext && (
-            <div className="flex justify-center pt-4">
-              <Pagination page={page} showNext={showNext} />
-            </div>
-          )}
+          {/* 滚动加载指示器 */}
+          <div ref={loaderRef} className="flex justify-center py-8">
+            {isLoading && (
+              <div className="flex items-center gap-2 text-ink-light">
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-ink-light border-t-transparent" />
+                <span className="text-sm">加载中...</span>
+              </div>
+            )}
+            {!hasMore && totalPosts > postsPerPage && (
+              <div className="text-center text-sm text-ink-light">
+                <span className="opacity-60">— 已加载全部文章 —</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Container>
