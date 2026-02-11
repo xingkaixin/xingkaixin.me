@@ -2,6 +2,7 @@ import 'prismjs/themes/prism.css'
 import 'react-notion-x/src/styles.css'
 import 'katex/dist/katex.min.css'
 import App from 'next/app'
+import { Analytics } from '@vercel/analytics/react'
 import '@/styles/globals.css'
 import '@/styles/notion.css'
 import dynamic from 'next/dynamic'
@@ -30,6 +31,7 @@ export default function MyApp ({ Component, pageProps, config, locale }) {
             )}
             {process.env.VERCEL_ENV === 'production' && config?.analytics?.provider === 'ga' && <Gtag />}
             <Component {...pageProps} />
+            <Analytics />
           </>
         </ThemeProvider>
       </LocaleProvider>
