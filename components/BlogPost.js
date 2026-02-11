@@ -1,5 +1,6 @@
 import FormattedDate from "@/components/FormattedDate";
 import { useConfig } from "@/lib/config";
+import Image from "next/image";
 import Link from "next/link";
 
 const BlogPost = ({ post }) => {
@@ -12,10 +13,13 @@ const BlogPost = ({ post }) => {
         <article className="blog-card h-full overflow-hidden">
           {/* 封面图 */}
           <div className="relative aspect-[16/9] w-full overflow-hidden">
-            <img
+            <Image
               src={post.pageCover}
               alt={post.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              fill
+              unoptimized
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
           {/* 标题和日期 */}
@@ -74,4 +78,3 @@ const BlogPost = ({ post }) => {
 };
 
 export default BlogPost;
-
