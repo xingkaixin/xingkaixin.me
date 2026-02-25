@@ -68,7 +68,7 @@ export default function Blog({ allPosts, totalPosts, postsPerPage }) {
   }, [hasMore, isLoading, loadMore]);
 
   return (
-    <Container title={title} description={description} fullWidth>
+    <Container title={title} description={description} image="/favicon.svg" fullWidth>
       <div className="relative mx-auto w-full max-w-5xl">
         {/* 侧边竖排装饰文字 - 仅桌面端显示 */}
         <div className="vertical-text fixed left-8 top-1/2 hidden -translate-y-1/2 xl:block">

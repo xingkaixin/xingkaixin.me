@@ -1,6 +1,7 @@
-import { createElement as h } from 'react'
+import { createElement as h, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { NotionRenderer as Renderer } from 'react-notion-x'
+import { Collection } from 'react-notion-x/build/third-party/collection'
 import { getTextContent } from 'notion-utils'
 import { FONTS_SANS, FONTS_SERIF } from '@/consts'
 import { useConfig } from '@/lib/config'
@@ -68,9 +69,7 @@ const components = {
     }
   }),
   // Database block
-  Collection: dynamic(() => {
-    return import('react-notion-x/build/third-party/collection').then(module => module.Collection)
-  }),
+  Collection,
   // Equation block & inline variant
   Equation: dynamic(() => {
     return import('react-notion-x/build/third-party/equation').then(module => module.Equation)
@@ -107,22 +106,34 @@ const mapPageUrl = id => `https://www.notion.so/${id.replace(/-/g, '')}`
  */
 export default function NotionRenderer (props) {
   const config = useConfig()
+  const { recordMap: rawRecordMap, ...restProps } = props
 
   const font = {
     'sans-serif': FONTS_SANS,
     'serif': FONTS_SERIF
   }[config.font]
 
-  // Mark block types to be custom rendered by appending a suffix
-  if (props.recordMap) {
-    for (const { value: block } of Object.values(props.recordMap.block)) {
-      switch (block?.type) {
-        case 'toggle':
-          block.type += '_nobelium'
-          break
-      }
-    }
-  }
+  // Mark block types to be custom rendered by appending a suffix (immutable)
+  const recordMap = useMemo(() => {
+    if (!rawRecordMap?.block) return rawRecordMap
+
+    let hasToggle = false
+    const block = Object.fromEntries(
+      Object.entries(rawRecordMap.block).map(([id, entry]) => {
+        if (entry?.value?.type !== 'toggle') return [id, entry]
+        hasToggle = true
+        return [id, {
+          ...entry,
+          value: {
+            ...entry.value,
+            type: 'toggle_nobelium'
+          }
+        }]
+      })
+    )
+
+    return hasToggle ? { ...rawRecordMap, block } : rawRecordMap
+  }, [rawRecordMap])
 
   return (
     <>
@@ -136,7 +147,8 @@ export default function NotionRenderer (props) {
       <Renderer
         components={components}
         mapPageUrl={mapPageUrl}
-        {...props}
+        {...restProps}
+        recordMap={recordMap}
       />
     </>
   )

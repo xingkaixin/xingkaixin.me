@@ -25,6 +25,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
       layout="blog"
       title={post.title}
       description={post.summary}
+      image={post.pageCover || '/favicon.svg'}
       slug={post.slug}
       // date={new Date(post.publishedAt).toISOString()}
       type="article"
